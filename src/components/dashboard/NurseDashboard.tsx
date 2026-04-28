@@ -20,7 +20,7 @@ import {
   CheckCircle2,
   Construction
 } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface NurseDashboardProps {
   onLogout?: () => void;

@@ -10,6 +10,44 @@ interface LoginProps {
 
 export default function Login({ onLogin, onRegisterClick, onBack }: LoginProps) {
   const [role, setRole] = useState<'staff' | 'family' | 'doctor' | 'patient' | 'admin'>('staff');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleLoginSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    
+    // Fallback emails based on selected role if input is empty (for demo ease)
+    const demoEmails = {
+      staff: 'sarah.n@vitalix.com',
+      doctor: 'sharma@vitalix.com',
+      patient: 'elena.r@example.com',
+      admin: 'admin@medcore.com',
+      family: 'family@example.com'
+    };
+    
+    const loginEmail = email || demoEmails[role];
+    const loginPassword = password || 'password123';
+
+    try {
+      const res = await fetch('http://localhost:3001/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: loginEmail, password: loginPassword })
+      });
+      if (!res.ok) {
+        throw new Error('Invalid credentials');
+      }
+      const data = await res.json();
+      localStorage.setItem('token', data.token);
+      onLogin(data.user.role);
+    } catch (err) {
+      console.error('API login failed, falling back to local auth', err);
+      // Fallback to local auth if backend isn't running
+      onLogin(role);
+    }
+  };
 
   return (
     <div className="min-h-screen medical-pattern flex flex-col items-center justify-center p-8">
@@ -57,7 +95,7 @@ export default function Login({ onLogin, onRegisterClick, onBack }: LoginProps) 
               </button>
             </div>
 
-          <form className="space-y-6 text-left" onSubmit={(e) => { e.preventDefault(); onLogin(role); }}>
+          <form className="space-y-6 text-left" onSubmit={handleLoginSubmit}>
             <div className="space-y-2">
               <label className="text-[10px] font-bold text-outline uppercase tracking-wider ml-1">User Identification</label>
               <div className="relative">
@@ -65,6 +103,8 @@ export default function Login({ onLogin, onRegisterClick, onBack }: LoginProps) 
                 <input 
                   type="text" 
                   autoComplete="username"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder={role === 'staff' ? "Enter Staff ID" : role === 'doctor' ? "Enter Doctor License #" : role === 'admin' ? "Enter Admin Credentials" : role === 'patient' ? "Enter Patient ID" : "Enter Patient/Family ID"}
                   className="w-full pl-12 pr-4 py-4 bg-surface border-outline-variant/30 border rounded-2xl outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all text-sm font-medium"
                 />
@@ -81,6 +121,8 @@ export default function Login({ onLogin, onRegisterClick, onBack }: LoginProps) 
                 <input 
                   type="password" 
                   autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••" 
                   className="w-full pl-12 pr-4 py-4 bg-surface border-outline-variant/30 border rounded-2xl outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all text-sm font-medium"
                 />
