@@ -19,10 +19,11 @@ import AdminDashboard from './components/admin/AdminDashboard';
 import PhysicianDashboard from './components/dashboard/PhysicianDashboard';
 import NurseDashboard from './components/dashboard/NurseDashboard';
 import PresentationDeck from './components/PresentationDeck';
+import AutomatedDemo from './components/AutomatedDemo';
 
 import Landing from './components/Landing';
 
-type AppState = 'landing' | 'presentation' | 'auth' | 'family-registration' | 'dashboard' | 'records' | 'appointments' | 'reports' | 'settings' | 'billing' | 'summary' | 'analytics' | 'access' | 'medications';
+type AppState = 'landing' | 'presentation' | 'demo' | 'auth' | 'family-registration' | 'dashboard' | 'records' | 'appointments' | 'reports' | 'settings' | 'billing' | 'summary' | 'analytics' | 'access' | 'medications';
 type UserRole = 'staff' | 'family' | 'doctor' | 'patient' | 'admin';
 
 export default function App() {
@@ -47,12 +48,17 @@ export default function App() {
         onLoginClick={() => setView('auth')} 
         onRegisterClick={() => setView('family-registration')}
         onPresentationClick={() => setView('presentation')}
+        onDemoClick={() => setView('demo')}
       />
     );
   }
 
   if (view === 'presentation') {
     return <PresentationDeck />;
+  }
+
+  if (view === 'demo') {
+    return <AutomatedDemo />;
   }
 
   if (view === 'auth') {
