@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { 
   MessageSquare, 
   Phone, 
@@ -9,6 +10,9 @@ import {
   User 
 } from 'lucide-react';
 import { motion } from 'motion/react';
+import TelehealthModal from './modals/TelehealthModal';
+import ChatModal from './modals/ChatModal';
+import ContactModal from './modals/ContactModal';
 
 const supportCategories = [
   { 
@@ -32,6 +36,11 @@ const supportCategories = [
 ];
 
 export default function HelpSupport() {
+  const [showTelehealthModal, setShowTelehealthModal] = useState(false);
+  const [showChatModal, setShowChatModal] = useState(false);
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 10 }}
@@ -44,7 +53,10 @@ export default function HelpSupport() {
           <p className="text-slate-500 font-medium">Direct access to your care team and portal assistance.</p>
         </div>
         <div className="flex gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 bg-secondary text-white font-bold rounded-lg shadow-lg shadow-secondary/20 hover:brightness-110 active:scale-95 transition-all text-sm">
+          <button 
+            onClick={() => setShowTelehealthModal(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-secondary text-white font-bold rounded-lg shadow-lg shadow-secondary/20 hover:brightness-110 active:scale-95 transition-all text-sm"
+          >
             <Video className="w-4 h-4" /> Start Telehealth Call
           </button>
         </div>
@@ -60,7 +72,14 @@ export default function HelpSupport() {
             <p className="text-sm text-slate-500 mb-6 leading-relaxed">
               {cat.desc}
             </p>
-            <button className="w-full py-3 bg-slate-50 border border-slate-200 text-slate-600 font-bold rounded-xl text-sm hover:bg-primary hover:text-white hover:border-primary transition-all">
+            <button 
+              onClick={() => {
+                if (cat.title === 'Clinical Inquiry') setShowContactModal(true);
+                else if (cat.title === 'Medication Assistance') setShowContactModal(true);
+                else if (cat.title === 'Technical Support') setShowContactModal(true);
+              }}
+              className="w-full py-3 bg-slate-50 border border-slate-200 text-slate-600 font-bold rounded-xl text-sm hover:bg-primary hover:text-white hover:border-primary transition-all"
+            >
               {cat.action}
             </button>
           </div>
@@ -78,6 +97,8 @@ export default function HelpSupport() {
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                 <input 
                   type="text" 
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search articles on medications, procedures, or portal usage..."
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl py-4 pl-12 pr-4 text-sm outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                 />
@@ -89,10 +110,14 @@ export default function HelpSupport() {
                   'Filing insurance claims through the portal',
                   'When to use the Emergency Protocols vs General Support?'
                 ].map((q, i) => (
-                  <div key={i} className="flex items-center justify-between p-4 hover:bg-slate-50 rounded-xl cursor-pointer group transition-colors">
+                  <button 
+                    key={i}
+                    onClick={() => console.log('[v0] Clicked FAQ:', q)}
+                    className="flex items-center justify-between p-4 hover:bg-slate-50 rounded-xl cursor-pointer group transition-colors w-full text-left"
+                  >
                     <span className="text-sm font-medium text-slate-600 group-hover:text-primary">{q}</span>
                     <ExternalLink className="w-4 h-4 text-slate-300 group-hover:text-primary" />
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
@@ -110,7 +135,10 @@ export default function HelpSupport() {
             <p className="text-white/70 text-sm mb-6 leading-relaxed">
               Connect with our on-duty nursing staff for immediate non-emergency clinical guidance.
             </p>
-            <button className="w-full py-4 bg-secondary text-white font-black rounded-xl text-xs uppercase tracking-widest hover:brightness-110 active:scale-[0.98] transition-all">
+            <button 
+              onClick={() => setShowChatModal(true)}
+              className="w-full py-4 bg-secondary text-white font-black rounded-xl text-xs uppercase tracking-widest hover:brightness-110 active:scale-[0.98] transition-all"
+            >
               Initialize Secure Chat
             </button>
           </div>
@@ -124,7 +152,7 @@ export default function HelpSupport() {
                 </div>
                 <div>
                   <p className="text-xs font-black text-primary">Emergency Response</p>
-                  <p className="text-sm font-bold text-error">911</p>
+                  <a href="tel:911" className="text-sm font-bold text-error hover:opacity-80">911</a>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -133,13 +161,18 @@ export default function HelpSupport() {
                 </div>
                 <div>
                   <p className="text-xs font-black text-primary">MedCore Helpdesk</p>
-                  <p className="text-sm font-bold text-slate-600">1-800-VITALIX</p>
+                  <a href="tel:+18008488459" className="text-sm font-bold text-slate-600 hover:opacity-80">1-800-VITALIX</a>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <TelehealthModal isOpen={showTelehealthModal} onClose={() => setShowTelehealthModal(false)} />
+      <ChatModal isOpen={showChatModal} onClose={() => setShowChatModal(false)} />
+      <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} />
     </motion.div>
   );
 }

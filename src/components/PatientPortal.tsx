@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MessageSquare } from 'lucide-react';
 import { motion } from 'motion/react';
 import PatientSidebar from './dashboard/patient/PatientSidebar';
@@ -14,6 +14,7 @@ import Billing from './Billing';
 import Medications from './Medications';
 import Access from './Access';
 import HelpSupport from './HelpSupport';
+import ChatModal from './modals/ChatModal';
 import { User } from '../types';
 
 interface PatientPortalProps {
@@ -25,6 +26,8 @@ interface PatientPortalProps {
 }
 
 export default function PatientPortal({ user, activeView, onViewChange, onLogout, onHome }: PatientPortalProps) {
+  const [showChatModal, setShowChatModal] = useState(false);
+
   const renderContent = () => {
     switch (activeView) {
       case 'dashboard':
@@ -83,12 +86,16 @@ export default function PatientPortal({ user, activeView, onViewChange, onLogout
           animate={{ scale: 1, opacity: 1 }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
+          onClick={() => setShowChatModal(true)}
           className="fixed bottom-8 right-8 w-14 h-14 bg-primary text-white rounded-2xl shadow-2xl flex items-center justify-center z-50 group overflow-hidden"
         >
           <div className="absolute inset-0 bg-secondary translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
           <MessageSquare className="w-6 h-6 relative z-10" />
         </motion.button>
       </main>
+
+      {/* Chat Modal */}
+      <ChatModal isOpen={showChatModal} onClose={() => setShowChatModal(false)} />
     </div>
   );
 }

@@ -21,6 +21,11 @@ import {
   ResponsiveContainer, 
   Cell 
 } from 'recharts';
+import ResourcesModal from './modals/ResourcesModal';
+import ComplianceModal from './modals/ComplianceModal';
+import ContactModal from './modals/ContactModal';
+import EmergencyAlertModal from './modals/EmergencyAlertModal';
+import TermsModal from './modals/TermsModal';
 
 // --- Mock Data ---
 
@@ -42,7 +47,15 @@ interface LandingProps {
   onRegisterClick: () => void;
 }
 
-const Navbar = ({ onLoginClick }: { onLoginClick: () => void }) => {
+interface NavbarProps {
+  onLoginClick: () => void;
+  onResourcesClick: () => void;
+  onComplianceClick: () => void;
+  onContactClick: () => void;
+  onEmergencyClick: () => void;
+}
+
+const Navbar = ({ onLoginClick, onResourcesClick, onComplianceClick, onContactClick, onEmergencyClick }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -54,9 +67,9 @@ const Navbar = ({ onLoginClick }: { onLoginClick: () => void }) => {
 
         <nav className="hidden items-center gap-8 md:flex">
           <a href="#" className="border-b-2 border-primary pb-1 text-sm font-semibold text-primary transition-colors">Portal</a>
-          <a href="#" className="text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors">Resources</a>
-          <a href="#" className="text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors">Compliance</a>
-          <a href="#" className="text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors">Contact</a>
+          <button onClick={onResourcesClick} className="text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors">Resources</button>
+          <button onClick={onComplianceClick} className="text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors">Compliance</button>
+          <button onClick={onContactClick} className="text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors">Contact</button>
         </nav>
 
         <div className="flex items-center gap-4">
@@ -66,7 +79,10 @@ const Navbar = ({ onLoginClick }: { onLoginClick: () => void }) => {
           >
             Sign In
           </button>
-          <button className="hidden items-center gap-2 rounded-lg bg-error px-4 py-2 text-xs font-bold text-on-error transition-all hover:opacity-90 active:scale-95 lg:flex">
+          <button 
+            onClick={onEmergencyClick}
+            className="hidden items-center gap-2 rounded-lg bg-error px-4 py-2 text-xs font-bold text-on-error transition-all hover:opacity-90 active:scale-95 lg:flex"
+          >
             <AlertTriangle size={14} />
             <span>EMERGENCY ALERT</span>
           </button>
@@ -86,16 +102,16 @@ const Navbar = ({ onLoginClick }: { onLoginClick: () => void }) => {
           >
             <div className="flex flex-col gap-4 p-6">
               <a href="#" className="text-lg font-bold text-primary">Portal</a>
-              <a href="#" className="text-lg font-bold text-on-surface-variant">Resources</a>
-              <a href="#" className="text-lg font-bold text-on-surface-variant">Compliance</a>
-              <a href="#" className="text-lg font-bold text-on-surface-variant">Contact</a>
+              <button onClick={onResourcesClick} className="text-lg font-bold text-on-surface-variant text-left">Resources</button>
+              <button onClick={onComplianceClick} className="text-lg font-bold text-on-surface-variant text-left">Compliance</button>
+              <button onClick={onContactClick} className="text-lg font-bold text-on-surface-variant text-left">Contact</button>
               <button 
                 onClick={onLoginClick}
                 className="text-lg font-bold text-primary text-left"
               >
                 Sign In
               </button>
-              <button className="flex items-center justify-center gap-2 rounded-lg bg-error py-3 text-sm font-bold text-on-error">
+              <button onClick={onEmergencyClick} className="flex items-center justify-center gap-2 rounded-lg bg-error py-3 text-sm font-bold text-on-error">
                 <AlertTriangle size={18} />
                 <span>EMERGENCY ALERT</span>
               </button>
@@ -198,9 +214,22 @@ const ProcessStep = ({ number, icon: Icon, title, description }: { number: strin
 };
 
 export default function Landing({ onLoginClick, onRegisterClick }: LandingProps) {
+  const [showResourcesModal, setShowResourcesModal] = useState(false);
+  const [showComplianceModal, setShowComplianceModal] = useState(false);
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [showEmergencyModal, setShowEmergencyModal] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+
   return (
     <div className="min-h-screen bg-surface">
-      <Navbar onLoginClick={onLoginClick} />
+      <Navbar 
+        onLoginClick={onLoginClick}
+        onResourcesClick={() => setShowResourcesModal(true)}
+        onComplianceClick={() => setShowComplianceModal(true)}
+        onContactClick={() => setShowContactModal(true)}
+        onEmergencyClick={() => setShowEmergencyModal(true)}
+      />
 
       <main>
         {/* --- Hero Section --- */}
@@ -327,11 +356,21 @@ export default function Landing({ onLoginClick, onRegisterClick }: LandingProps)
             </div>
 
             <div className="flex flex-wrap gap-x-8 gap-y-4">
-              {['Hospital Directory', 'Contact Support', 'Privacy Policy', 'Compliance', 'Terms of Service'].map((link) => (
-                <a key={link} href="#" className="text-[10px] font-bold uppercase tracking-widest transition-colors hover:text-secondary font-mono">
-                  {link}
-                </a>
-              ))}
+              <button onClick={() => setShowResourcesModal(true)} className="text-[10px] font-bold uppercase tracking-widest transition-colors hover:text-secondary font-mono">
+                Hospital Directory
+              </button>
+              <button onClick={() => setShowContactModal(true)} className="text-[10px] font-bold uppercase tracking-widest transition-colors hover:text-secondary font-mono">
+                Contact Support
+              </button>
+              <button onClick={() => setShowPrivacyModal(true)} className="text-[10px] font-bold uppercase tracking-widest transition-colors hover:text-secondary font-mono">
+                Privacy Policy
+              </button>
+              <button onClick={() => setShowComplianceModal(true)} className="text-[10px] font-bold uppercase tracking-widest transition-colors hover:text-secondary font-mono">
+                Compliance
+              </button>
+              <button onClick={() => setShowTermsModal(true)} className="text-[10px] font-bold uppercase tracking-widest transition-colors hover:text-secondary font-mono">
+                Terms of Service
+              </button>
             </div>
 
             <div className="flex gap-4">
@@ -345,6 +384,14 @@ export default function Landing({ onLoginClick, onRegisterClick }: LandingProps)
           </div>
         </div>
       </footer>
+
+      {/* Modals */}
+      <ResourcesModal isOpen={showResourcesModal} onClose={() => setShowResourcesModal(false)} />
+      <ComplianceModal isOpen={showComplianceModal} onClose={() => setShowComplianceModal(false)} />
+      <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} />
+      <EmergencyAlertModal isOpen={showEmergencyModal} onClose={() => setShowEmergencyModal(false)} />
+      <TermsModal isOpen={showTermsModal} onClose={() => setShowTermsModal(false)} type="terms" />
+      <TermsModal isOpen={showPrivacyModal} onClose={() => setShowPrivacyModal(false)} type="privacy" />
     </div>
   );
 }

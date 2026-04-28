@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FamilySidebar from './dashboard/family/FamilySidebar';
 import FamilyHeader from './dashboard/family/FamilyHeader';
 import FamilyOverview from './dashboard/family/FamilyOverview';
@@ -10,6 +10,9 @@ import Billing from './Billing';
 import Medications from './Medications';
 import Access from './Access';
 import HelpSupport from './HelpSupport';
+import ChatModal from './modals/ChatModal';
+import { motion } from 'motion/react';
+import { MessageSquare } from 'lucide-react';
 import { User } from '../types';
 
 interface FamilyPortalProps {
@@ -21,6 +24,8 @@ interface FamilyPortalProps {
 }
 
 export default function FamilyPortal({ user, activeView, onViewChange, onLogout, onHome }: FamilyPortalProps) {
+  const [showChatModal, setShowChatModal] = useState(false);
+
   const renderContent = () => {
     switch (activeView) {
       case 'dashboard':
@@ -66,7 +71,23 @@ export default function FamilyPortal({ user, activeView, onViewChange, onLogout,
         <div className="p-8 max-w-[1440px] mx-auto">
           {renderContent()}
         </div>
+
+        {/* Floating Chat FAB */}
+        <motion.button
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setShowChatModal(true)}
+          className="fixed bottom-8 right-8 w-14 h-14 bg-primary text-white rounded-2xl shadow-2xl flex items-center justify-center z-50 group overflow-hidden"
+        >
+          <div className="absolute inset-0 bg-secondary translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+          <MessageSquare className="w-6 h-6 relative z-10" />
+        </motion.button>
       </main>
+
+      {/* Chat Modal */}
+      <ChatModal isOpen={showChatModal} onClose={() => setShowChatModal(false)} />
     </div>
   );
 }
