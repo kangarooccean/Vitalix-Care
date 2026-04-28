@@ -46,6 +46,7 @@ export default function App() {
       <Landing 
         onLoginClick={() => setView('auth')} 
         onRegisterClick={() => setView('family-registration')}
+        onPresentationClick={() => setView('presentation')}
       />
     );
   }

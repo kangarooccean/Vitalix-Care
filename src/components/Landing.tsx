@@ -216,7 +216,7 @@ const ProcessStep = ({ number, icon: Icon, title, description }: { number: strin
   );
 };
 
-export default function Landing({ onLoginClick, onRegisterClick }: LandingProps) {
+export default function Landing({ onLoginClick, onRegisterClick, onPresentationClick }: LandingProps & { onPresentationClick?: () => void }) {
   const [showResourcesModal, setShowResourcesModal] = useState(false);
   const [showComplianceModal, setShowComplianceModal] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
@@ -232,6 +232,7 @@ export default function Landing({ onLoginClick, onRegisterClick }: LandingProps)
         onComplianceClick={() => setShowComplianceModal(true)}
         onContactClick={() => setShowContactModal(true)}
         onEmergencyClick={() => setShowEmergencyModal(true)}
+        onPresentationClick={onPresentationClick || (() => {})}
       />
 
       <main>
