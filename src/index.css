@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Public+Sans:wght@600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Public Sans", ui-monospace, SFMono-Regular, monospace;
+  --font-technical: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --width-container-max: 1440px;
+
+  /* Custom palette from the design system */
+  --color-primary: #002645;
+  --color-primary-brand: #002645;
+  --color-primary-container: #1a3c5e;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #ffffff;
+  --color-secondary: #006b54;
+  --color-secondary-brand: #006b54;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #90f2d1;
+  --color-on-secondary-container: #002118;
+  --color-error-brand: #ba1a1a;
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #410002;
+  --color-surface: #f8f9ff;
+  --color-surface-container: #e5eeff;
+  --color-surface-container-low: #eff4ff;
+  --color-surface-container-high: #dce9ff;
+  --color-surface-container-highest: #d3e4fe;
+  --color-surface-container-lowest: #ffffff;
+  --color-on-surface: #0b1c30;
+  --color-on-surface-variant: #43474e;
+  --color-outline: #73777f;
+  --color-outline-variant: #c3c6cf;
+}
+
+@layer base {
+  body {
+    @apply bg-surface text-on-surface font-sans;
+  }
+}
+
+.medical-pattern {
+  background-color: #f4f6f9;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 10v40M10 30h40' stroke='%23e2e8f0' stroke-width='2' fill='none' fill-rule='evenodd' stroke-linecap='square'/%3E%3C/svg%3E");
+}
+
+.glass-card {
+  @apply bg-white/80 backdrop-blur-md border border-outline-variant/30 shadow-sm;
+}
