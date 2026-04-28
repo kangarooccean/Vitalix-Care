@@ -47,6 +47,7 @@ interface LandingProps {
   onRegisterClick: () => void;
   onPresentationClick: () => void;
   onDemoClick: () => void;
+  onDemo3MinClick?: () => void;
 }
 
 interface NavbarProps {
@@ -57,9 +58,10 @@ interface NavbarProps {
   onEmergencyClick: () => void;
   onPresentationClick: () => void;
   onDemoClick: () => void;
+  onDemo3MinClick?: () => void;
 }
 
-const Navbar = ({ onLoginClick, onResourcesClick, onComplianceClick, onContactClick, onEmergencyClick, onPresentationClick, onDemoClick }: NavbarProps) => {
+const Navbar = ({ onLoginClick, onResourcesClick, onComplianceClick, onContactClick, onEmergencyClick, onPresentationClick, onDemoClick, onDemo3MinClick }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -75,7 +77,8 @@ const Navbar = ({ onLoginClick, onResourcesClick, onComplianceClick, onContactCl
           <button onClick={onComplianceClick} className="text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors">Compliance</button>
           <button onClick={onContactClick} className="text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors">Contact</button>
           <button onClick={onPresentationClick} className="text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors">Deck</button>
-          <button onClick={onDemoClick} className="text-sm font-semibold text-secondary hover:text-primary transition-colors">Video Demo</button>
+          <button onClick={onDemoClick} className="text-sm font-semibold text-on-surface-variant hover:text-primary transition-colors">Video Demo</button>
+          {onDemo3MinClick && <button onClick={onDemo3MinClick} className="text-sm font-semibold text-accent hover:text-accent/80 transition-colors font-bold">Demo (3min)</button>}
         </nav>
 
         <div className="flex items-center gap-4">
@@ -113,6 +116,7 @@ const Navbar = ({ onLoginClick, onResourcesClick, onComplianceClick, onContactCl
               <button onClick={onContactClick} className="text-lg font-bold text-on-surface-variant text-left">Contact</button>
               <button onClick={onPresentationClick} className="text-lg font-bold text-on-surface-variant text-left">Presentation Deck</button>
               <button onClick={onDemoClick} className="text-lg font-bold text-secondary text-left">Video Demo</button>
+              {onDemo3MinClick && <button onClick={onDemo3MinClick} className="text-lg font-bold text-accent text-left">Demo (3min)</button>}
               <button 
                 onClick={onLoginClick}
                 className="text-lg font-bold text-primary text-left"
@@ -221,7 +225,7 @@ const ProcessStep = ({ number, icon: Icon, title, description }: { number: strin
   );
 };
 
-export default function Landing({ onLoginClick, onRegisterClick, onPresentationClick, onDemoClick }: LandingProps & { onPresentationClick?: () => void; onDemoClick?: () => void }) {
+export default function Landing({ onLoginClick, onRegisterClick, onPresentationClick, onDemoClick, onDemo3MinClick }: LandingProps & { onPresentationClick?: () => void; onDemoClick?: () => void; onDemo3MinClick?: () => void }) {
   const [showResourcesModal, setShowResourcesModal] = useState(false);
   const [showComplianceModal, setShowComplianceModal] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
@@ -239,6 +243,7 @@ export default function Landing({ onLoginClick, onRegisterClick, onPresentationC
         onEmergencyClick={() => setShowEmergencyModal(true)}
         onPresentationClick={onPresentationClick || (() => {})}
         onDemoClick={onDemoClick || (() => {})}
+        onDemo3MinClick={onDemo3MinClick}
       />
 
       <main>

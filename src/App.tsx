@@ -20,10 +20,11 @@ import PhysicianDashboard from './components/dashboard/PhysicianDashboard';
 import NurseDashboard from './components/dashboard/NurseDashboard';
 import PresentationDeck from './components/PresentationDeck';
 import AutomatedDemo from './components/AutomatedDemo';
+import Demo3Min from './components/Demo3Min';
 
 import Landing from './components/Landing';
 
-type AppState = 'landing' | 'presentation' | 'demo' | 'auth' | 'family-registration' | 'dashboard' | 'records' | 'appointments' | 'reports' | 'settings' | 'billing' | 'summary' | 'analytics' | 'access' | 'medications';
+type AppState = 'landing' | 'presentation' | 'demo' | 'demo3min' | 'auth' | 'family-registration' | 'dashboard' | 'records' | 'appointments' | 'reports' | 'settings' | 'billing' | 'summary' | 'analytics' | 'access' | 'medications';
 type UserRole = 'staff' | 'family' | 'doctor' | 'patient' | 'admin';
 
 export default function App() {
@@ -49,6 +50,7 @@ export default function App() {
         onRegisterClick={() => setView('family-registration')}
         onPresentationClick={() => setView('presentation')}
         onDemoClick={() => setView('demo')}
+        onDemo3MinClick={() => setView('demo3min')}
       />
     );
   }
@@ -59,6 +61,10 @@ export default function App() {
 
   if (view === 'demo') {
     return <AutomatedDemo />;
+  }
+
+  if (view === 'demo3min') {
+    return <Demo3Min />;
   }
 
   if (view === 'auth') {
