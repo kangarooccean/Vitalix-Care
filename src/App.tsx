@@ -18,10 +18,11 @@ import Medications from './components/Medications';
 import AdminDashboard from './components/admin/AdminDashboard';
 import PhysicianDashboard from './components/dashboard/PhysicianDashboard';
 import NurseDashboard from './components/dashboard/NurseDashboard';
+import PresentationDeck from './components/PresentationDeck';
 
 import Landing from './components/Landing';
 
-type AppState = 'landing' | 'auth' | 'family-registration' | 'dashboard' | 'records' | 'appointments' | 'reports' | 'settings' | 'billing' | 'summary' | 'analytics' | 'access' | 'medications';
+type AppState = 'landing' | 'presentation' | 'auth' | 'family-registration' | 'dashboard' | 'records' | 'appointments' | 'reports' | 'settings' | 'billing' | 'summary' | 'analytics' | 'access' | 'medications';
 type UserRole = 'staff' | 'family' | 'doctor' | 'patient' | 'admin';
 
 export default function App() {
@@ -47,6 +48,10 @@ export default function App() {
         onRegisterClick={() => setView('family-registration')}
       />
     );
+  }
+
+  if (view === 'presentation') {
+    return <PresentationDeck />;
   }
 
   if (view === 'auth') {
