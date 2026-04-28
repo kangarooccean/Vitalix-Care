@@ -7,12 +7,14 @@ import {
   Search, 
   ExternalLink,
   ShieldCheck,
-  User 
+  User,
+  Sparkles
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import TelehealthModal from './modals/TelehealthModal';
 import ChatModal from './modals/ChatModal';
 import ContactModal from './modals/ContactModal';
+import HealthAssistant from './HealthAssistant';
 
 const supportCategories = [
   { 
@@ -39,6 +41,7 @@ export default function HelpSupport() {
   const [showTelehealthModal, setShowTelehealthModal] = useState(false);
   const [showChatModal, setShowChatModal] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
+  const [showHealthAssistant, setShowHealthAssistant] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
   return (
@@ -50,9 +53,15 @@ export default function HelpSupport() {
       <div className="flex justify-between items-end">
         <div>
           <h2 className="text-3xl font-bold text-primary tracking-tight">Help & Clinical Support</h2>
-          <p className="text-slate-500 font-medium">Direct access to your care team and portal assistance.</p>
+          <p className="text-slate-500 font-medium">Direct access to your care team, AI assistant, and portal help.</p>
         </div>
         <div className="flex gap-3">
+          <button 
+            onClick={() => setShowHealthAssistant(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-secondary to-primary text-white font-bold rounded-lg shadow-lg shadow-primary/20 hover:brightness-110 active:scale-95 transition-all text-sm"
+          >
+            <Sparkles className="w-4 h-4" /> AI Health Assistant
+          </button>
           <button 
             onClick={() => setShowTelehealthModal(true)}
             className="flex items-center gap-2 px-4 py-2 bg-secondary text-white font-bold rounded-lg shadow-lg shadow-secondary/20 hover:brightness-110 active:scale-95 transition-all text-sm"
@@ -173,6 +182,7 @@ export default function HelpSupport() {
       <TelehealthModal isOpen={showTelehealthModal} onClose={() => setShowTelehealthModal(false)} />
       <ChatModal isOpen={showChatModal} onClose={() => setShowChatModal(false)} />
       <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} />
+      <HealthAssistant isOpen={showHealthAssistant} onClose={() => setShowHealthAssistant(false)} />
     </motion.div>
   );
 }
